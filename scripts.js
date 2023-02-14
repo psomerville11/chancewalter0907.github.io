@@ -8,6 +8,11 @@ var paddleSpeed = 6;
 var ballSpeed = 5;
 var playerOneScore = 0;
 var playerTwoScore = 0;
+var gameOver = false;
+var gameOverDisplayed = false;
+const gameoverScreen = document.getElementById('gameOver');
+//const gameoverContainer = document.getElementById("gameContainer")
+
 
 const leftPaddle = {
   // start in the middle of the game on the left side
@@ -53,10 +58,40 @@ function collides(obj1, obj2) {
          obj1.y + obj1.height > obj2.y;
 }
 
+function displaygameOver(){
+  gameoverScreen.style.visibility = "visible";
+  //gameoverContainer.style.visibility = "hidden";
+}
+
+function hideGameOver(){
+gameoverScreen.visibility = "hidden";
+//gameoverContainer.style.visibility = "visible";
+}
+
+
 // game loop
 function loop() {
   requestAnimationFrame(loop);
   context.clearRect(0,0,canvas.width,canvas.height);
+
+distance = leftPaddle.y - ball.y;
+
+if(distance > 0){
+  leftPaddle.dy = -paddleSpeed;
+}
+if(distance < 0){
+  leftPaddle.dy = paddleSpeed;
+}
+
+
+if (gameOver){
+  if(!gameOverDisplayed){
+    displaygameOver();
+    gameOverDisplayed = true;
+  }
+  return;
+}
+
 
   // move paddles by their velocity
   leftPaddle.y += leftPaddle.dy;
@@ -109,15 +144,25 @@ function loop() {
 
     // Gives point to the right paddle if the ball goes past the left paddle
     if (ball.x < 0) {
-        playerTwoScore += 10;
+        playerTwoScore += 1;
     }
 
     // Give spoint to the left paddle if the ball goes past the right paddle
     if (ball.x > canvas.width) {
-        playerOneScore += 10;
+        playerOneScore += 1;
     }
 
-    
+    if(playerOneScore >= 7 || playerTwoScore >= 7 ){
+          if(playerOneScore > playerTwoScore){
+          document.getElementById("winner").innerHTML = "You lose";
+          } else{
+          document.getElementById("winner").innerHTML = "You win";
+     }
+     //document.getElementById("gameOver").innerText = "Game Over";
+      //document.getElementById("gameOver").style.visibility = "visible";
+     gameOver = true;
+      //end game
+    }
   }
 
   // check to see if ball collides with paddle. if they do change x velocity
@@ -161,6 +206,10 @@ function loop() {
 
 }
 
+//if(playerOneScore == 7 || playerTwoScore == 7){
+  //handleGameOver();
+//}
+
 // listen to keyboard events to move the paddles
 document.addEventListener('keydown', function(e) {
 
@@ -193,6 +242,36 @@ document.addEventListener('keyup', function(e) {
     leftPaddle.dy = 0;
   }
 });
+
+//function handleGameOver(){
+ //if(playerOneScore == 7){
+  //document.getElementById("winner").innerHTML = "You lose";
+ //}
+ //else{
+  //document.getElementById("winner").innerHTML = "You win";
+ //}
+//showBox();
+//ball.resetting = true;
+//}
+
+//function restart(){
+ // playerOneScore = 0;
+  //playerTwoScore = 0;
+  //scores = playerOneScore + " - " + playerTwoScore;
+  //document.getElementById('scoreboard')
+
+ // popup.style.display = "none";
+
+  //setTimeout(() =>{ 
+    //ball.resetting = false;
+    //ball.x = canvas.width / 2;
+    //ball.y = canvas.height /2;
+  //});
+//}
+
+//function showBox(){
+  //gameOver.style.display = "block";
+//}
 
 // start the game
 requestAnimationFrame(loop);

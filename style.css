@@ -1,4 +1,4 @@
-html, body {
+html, body{
     height: 100%;
     margin: 0;
   }
@@ -9,3 +9,36 @@ html, body {
     align-items: center;
     justify-content: center;
   }
+
+h1{
+  color: red;
+  text-align: center;
+}
+
+h2{
+  color: pink;
+  position: relative;
+}
+
+
+  #gameOver{
+   display: flex;
+   flex-direction: column;
+   position: fixed;
+   visibility: hidden;
+  }
+
+
+  #winner {
+    align-items: center;
+    position: relative;
+    font-size: 20pt;
+    color: pink;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif   
+  }
+
+  button {
+    color: red;
+    align-items: center;
+  }
+    
